@@ -104,10 +104,10 @@ export const checkTextIsNull = ( value, text ) => {
 // @email string contendo o email para cadastro
 // @senha String contendo a senha para cadastro
 // @navigation, objeto de navegação do react-navigation
-export const realizaCadastro = ( email, senha, navigation ) => {
+export const realizaCadastro = ( email, senha, nome, navigation ) => {
     return DISPATCH => {
         firebase.auth().createUserWithEmailAndPassword( email, senha )
-            .then( () => { cadastroSucesso(DISPATCH, navigation) } )
+            .then( cadastroInfo => { cadastroSucesso(DISPATCH, navigation, nome, cadastroInfo) } )
             .catch( error => { cadatroFalhou(DISPATCH, error.code) } );
     };
 }
@@ -116,9 +116,13 @@ export const realizaCadastro = ( email, senha, navigation ) => {
 // dispara a action caso o cadastro tenha sido bem sucessido 
 // @DISPATCH objeto (Thunk) executa o dispath de forma assincrona
 // @navigation, objeto de navegação do react-navigation
-const cadastroSucesso = ( DISPATCH, navigation ) => {
-    navigation.goBack();
-    DISPATCH({ type: SUCESSO_CADASTRO });
+const cadastroSucesso = ( DISPATCH, navigation, nome, cadastroInfo ) => {
+    firebase.database().ref(`usuario/${cadastroInfo['user']['uid']}`)
+        .set({ nome })
+        .then( () => {  
+            navigation.goBack();
+            DISPATCH({ type: SUCESSO_CADASTRO }); 
+        } );
 };
 
 // Action usa recorso assincromo do middleware thunk

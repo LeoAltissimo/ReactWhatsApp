@@ -11,7 +11,7 @@ const DivBotao = props => (
         <Button 
             title='Cadastrar' 
             color='#287f62'
-            onPress={ () => { props.realizaCadastro( props.email, props.senha, props.navigation ) } }
+            onPress={ () => { props.realizaCadastro( props.email, props.senha, props.nome, props.navigation ) } }
         />
     </View>
 );
