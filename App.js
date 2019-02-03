@@ -10,7 +10,8 @@ import reducers from './src/redux/reducers/';
 //Views Import
 import { 
   FormLogin, 
-  FormCadastro 
+  FormCadastro,
+  TabMain
 } from './src/views';
 
 // Seting Redux
@@ -19,11 +20,12 @@ const store = createStore( reducers, applyMiddleware(thunk) );
 // Seting React-Navigation
 const rotas = createStackNavigator({
   FormLogin: FormLogin,
-  FormCadastro: FormCadastro
+  FormCadastro: FormCadastro,
+  TabMain: TabMain
 },
 {
   initialRouteName: 'FormLogin',
-  headerMode: 'screen'
+  headerMode: 'none'
 });
 const StackNavigation = createAppContainer(rotas);
 

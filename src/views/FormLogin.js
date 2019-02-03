@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, ImageBackground } from 'react-native';
 
 // Components Import
-import { DivTopo, ConectedDivFormLogin, DivBotao } from '../components/FormLogin';
+import { DivTopo, ConectedDivFormLogin, ConnectedDivButton } from '../components/FormLogin';
 
 const formLoginBackground = require('../../assets/imgs/formLoginBackground.jpg');
 
@@ -18,7 +18,7 @@ class FormLogin extends React.Component {
         >
             <DivTopo />
             <ConectedDivFormLogin navigation={this.props.navigation}/>
-            <DivBotao />
+            <ConnectedDivButton navigation={this.props.navigation} />
         </ImageBackground>    
         );
     }

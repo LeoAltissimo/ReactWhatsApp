@@ -44,6 +44,10 @@ class DivFormCadastro extends Component {
                 <TextInput 
                     style={styles.campoLogin}
                     value={this.props.email}
+                    textContentType={'emailAddress'}
+                    autoComplete="email"
+                    autoCapitalize="none"
+                    keyboardType="email-address"
                     onFocus={() => { this.props.clearTextIfIsDefault( 'email' , this.props.email ) }}
                     onChangeText={(text) => this.props.setText( 'email', text )}
                     onEndEditing={() => { this.props.checkTextIsNull( 'email', this.props.email ) }}
@@ -51,6 +55,8 @@ class DivFormCadastro extends Component {
                 <TextInput 
                     style={styles.campoLogin}
                     value={this.props.senha}
+                    textContentType={'password'}
+                    secureTextEntry={this.props.escondeSenha}
                     onFocus={() => { this.props.clearTextIfIsDefault( 'senha' , this.props.senha ) }}
                     onChangeText={(text) => this.props.setText( 'senha', text )}
                     onEndEditing={() => { this.props.checkTextIsNull( 'senha', this.props.senha ) }}
@@ -73,6 +79,10 @@ class DivFormCadastro extends Component {
                 <TextInput 
                     style={styles.campoLogin}
                     value={this.props.email}
+                    textContentType={'emailAddress'}
+                    autoComplete="email"
+                    autoCapitalize="none"
+                    keyboardType="email-address"
                     onFocus={() => { this.props.clearTextIfIsDefault( 'email' , this.props.email ) }}
                     onChangeText={(text) => this.props.setText( 'email', text )}
                     onEndEditing={() => { this.props.checkTextIsNull( 'email', this.props.email ) }}
@@ -80,6 +90,8 @@ class DivFormCadastro extends Component {
                 <TextInput 
                     style={styles.campoLogin}
                     value={this.props.senha}
+                    textContentType={'password'}
+                    secureTextEntry={this.props.escondeSenha}
                     onFocus={() => { this.props.clearTextIfIsDefault( 'senha' , this.props.senha ) }}
                     onChangeText={(text) => this.props.setText( 'senha', text )}
                     onEndEditing={() => { this.props.checkTextIsNull( 'senha', this.props.senha ) }}
@@ -94,6 +106,7 @@ const mapStatesToProps = State => ({
     nome: State.AuthReducer.nome,
     email: State.AuthReducer.email,
     senha: State.AuthReducer.senha,
+    escondeSenha: !(State.AuthReducer.apresentaSenha),
     erroCadastro: State.AuthReducer.erroCadastro,
     tipoErro: State.AuthReducer.typeErroCadastro
 });
@@ -122,7 +135,7 @@ const styles = StyleSheet.create({
     },
     errorMenssage: {
         color: '#ff0000',
-        fontSize: 12
+        fontSize: 14
     }
 });
 
