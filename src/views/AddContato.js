@@ -6,6 +6,6 @@ import { Header, ConnectedFormAdd } from '../components/AddContato/';
 export const AddContato = props => (
     <View>
         <Header navigation={props.navigation}/>
-        <ConnectedFormAdd />
+        <ConnectedFormAdd navigation={props.navigation}/>
     </View>
 );

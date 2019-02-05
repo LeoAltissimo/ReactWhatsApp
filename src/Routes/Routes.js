@@ -47,7 +47,7 @@ const rotas = createStackNavigator(
     AddContato: AddContato
   },
   {
-    initialRouteName: 'TabMain',
+    initialRouteName: 'FormLogin',
     headerMode: "none"
   }
 );

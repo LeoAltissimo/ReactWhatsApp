@@ -1,4 +1,5 @@
 import firebase from 'firebase';
+import b64 from 'base-64';
 
 import {
     SET_EMAIL_LOGIN, 
@@ -107,7 +108,7 @@ export const checkTextIsNull = ( value, text ) => {
 export const realizaCadastro = ( email, senha, nome, navigation ) => {
     return DISPATCH => {
         firebase.auth().createUserWithEmailAndPassword( email, senha )
-            .then( cadastroInfo => { cadastroSucesso(DISPATCH, navigation, nome, cadastroInfo) } )
+            .then( () => { cadastroSucesso(DISPATCH, navigation, nome, email) } )
             .catch( error => { cadatroFalhou(DISPATCH, error.code) } );
     };
 }
@@ -116,8 +117,10 @@ export const realizaCadastro = ( email, senha, nome, navigation ) => {
 // dispara a action caso o cadastro tenha sido bem sucessido 
 // @DISPATCH objeto (Thunk) executa o dispath de forma assincrona
 // @navigation, objeto de navegação do react-navigation
-const cadastroSucesso = ( DISPATCH, navigation, nome, cadastroInfo ) => {
-    firebase.database().ref(`usuario/${cadastroInfo['user']['uid']}`)
+const cadastroSucesso = ( DISPATCH, navigation, nome, email ) => {
+    idUser = b64.encode( email );
+    console.log(idUser);
+    firebase.database().ref(`usuario/${idUser}`)
         .set({ nome })
         .then( () => {  
             navigation.goBack();

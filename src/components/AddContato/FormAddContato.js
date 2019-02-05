@@ -1,12 +1,50 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableHighlight, TextInput, StyleSheet} from 'react-native';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+import firebase from 'firebase';
+
+import b64 from 'base-64';
 
 import {
-    setEmailTopAdd
+    setEmailTopAdd,
+    clearTextIfIsDefault,
+    atualizaListaContatos
+    
 } from '../../redux/actions/ContatosActions';
 
 class FormAddContato extends Component {
+    VerifyUserInDb(){
+        if( !(this.props.email) )
+            return;
+
+        uid = b64.encode( this.props.email );
+
+        firebase.database().ref(`usuario/${uid}`).once('value')
+        .then( query => {  
+            if( (query.exists( )) )
+                this.addContatoToBd( query, uid );
+        } )
+    } 
+
+    addContatoToBd( query, uidContato ){
+        uidUser = b64.encode( this.props.emailUser );
+        firebase.database().ref(`usuario/${uidUser}/contatos/${uidContato}`)
+           .set({nome: query.val( ).nome, email: this.props.email })
+           .then( this.reloadListaContatos() )
+    }
+
+    reloadListaContatos(){
+        uidUser = b64.encode( this.props.emailUser );
+
+        firebase.database().ref(`usuario/${uidUser}/contatos`).once('value')
+        .then( query => {  
+            if( (query.exists( )) )
+                this.props.atualizaListaContatos( query.val() );
+            
+                this.props.navigation.goBack()
+        } )
+    }
+
     render() {
         return(
             <View style={{backgroundColor: '#efefef'}}>
@@ -19,13 +57,14 @@ class FormAddContato extends Component {
                         autoComplete="email"
                         autoCapitalize="none"
                         keyboardType="email-address"
+                        onFocus={ text => { this.props.clearTextIfIsDefault(text) }}
                         onChangeText={ text => { this.props.setEmailTopAdd(text) } }
                     />
                     <TouchableHighlight 
                         title='Adicionar' 
                         color='#287f62'
                         style={styles.botaoEmail}
-                        onPress={ () => false }
+                        onPress={ () => { this.VerifyUserInDb() } }
                     >
                         <Text style={styles.textBtn}>Adicionar</Text>
                     </TouchableHighlight>
@@ -73,11 +112,14 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = State => ({
-    email: State.ContatosReducer.emailToAdd
+    email: State.ContatosReducer.emailToAdd,
+    emailUser: State.AuthReducer.email
 });
 
 const mapDispatchToProps = {
-    setEmailTopAdd
+    setEmailTopAdd,
+    clearTextIfIsDefault,
+    atualizaListaContatos
 };
 
 const ConnectedFormAdd = connect( mapStateToProps, mapDispatchToProps )( FormAddContato );
