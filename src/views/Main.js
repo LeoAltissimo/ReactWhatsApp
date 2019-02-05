@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
 import { View, Text, StatusBar } from 'react-native';
-import { createMaterialTopTabNavigator, SafeAreaView } from 'react-navigation';
+import { SafeAreaView } from 'react-navigation';
 
-class Conversas extends Component {
+import { 
+    AddContatosButon,
+    ListaContatosVazio
+} from '../components/MainTab/';
+
+export class Conversas extends Component {
     static navigationOpitions = {
         header: null,
         headerTitle: "Conversas"
@@ -17,40 +22,21 @@ class Conversas extends Component {
     }
 }
 
-class Contatos extends Component {
+export class Contatos extends Component {
     static navigationOpitions = {
         header: null,
         headerTitle: "Contatos"
     }
     render() {
         return (
-            <SafeAreaView>
-                <Text>Contatos</Text>
-            </SafeAreaView>
+            <View style={{ 
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center' 
+            }}>
+                <ListaContatosVazio navigation={this.props.navigation}/>
+                <AddContatosButon navigation={this.props.navigation}/>
+            </View>
         );
     }
 }
-
-export const TabMain = createMaterialTopTabNavigator(
-    {
-        TabConversas: Conversas,
-        TabContatos: Contatos
-    },
-    {
-        tabBarOptions: {
-            scrollEnabled: false,
-            labelStyle: {
-                fontSize: 12,
-            },
-            style: {
-                backgroundColor: '#287f62',
-                justifyContent: 'center',
-                paddingTop: 30
-            },
-            indicatorStyle: {
-                backgroundColor: '#fff'
-            },
-        },
-        initialRouteName: 'TabConversas'
-    }
-);

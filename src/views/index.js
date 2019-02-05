@@ -1,3 +1,4 @@
 export { FormLogin } from './FormLogin';
 export { FormCadastro } from './FormCadastro';
-export { TabMain } from './Main';
+export { Conversas, Contatos  } from './Main';
+export { AddContato } from './AddContato';
