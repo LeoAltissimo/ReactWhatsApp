@@ -39,7 +39,7 @@ class FormAddContato extends Component {
         firebase.database().ref(`usuario/${uidUser}/contatos`).once('value')
         .then( query => {  
             if( (query.exists( )) )
-                this.props.atualizaListaContatos( query.val() );
+                this.props.atualizaListaContatos( Object.values( query.val() ) );
             
                 this.props.navigation.goBack()
         } )

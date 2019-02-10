@@ -3,6 +3,7 @@ export const SET_LISTA_CONTATOS = 'set_lista_contatos';
 
 export const initialState = {
     emailToAdd: 'E-mail',
+    existsContatcs: false,
 }
 
 export default function reducer( State = initialState, action ) {
@@ -10,7 +11,7 @@ export default function reducer( State = initialState, action ) {
         case SET_EMAIL_TO_ADD:
             return { ...State, emailToAdd: action.payload.setEmailTopAdd }
         case SET_LISTA_CONTATOS:
-            return { ...State, contatos: action.payload.contatos }
+            return { ...State, contatos: action.payload.contatos, existsContatcs: true }
         default:
             return State;
     }

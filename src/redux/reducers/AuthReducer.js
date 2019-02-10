@@ -8,8 +8,8 @@ export const SUCESSO_LOGIN = 'Sucesso_no_login';
 
 export const initialState = {
     nome: 'Nome',
-    email: 'E-mail',
-    senha: 'Senha',
+    email: 'tester@tester.com',
+    senha: '123456',
     apresentaSenha: true,
     erroCadastro: false,
     erroLogin: false,
