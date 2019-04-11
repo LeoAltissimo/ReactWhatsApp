@@ -4,7 +4,7 @@ import { View, Text, StyleSheet } from 'react-native';
 const DivTopo = props => (
     <View style={styles.container}>
         <Text style={styles.titulo}>
-            WhatsApp De Moreno
+            WhatsApp Teste
         </Text>
     </View>
 );

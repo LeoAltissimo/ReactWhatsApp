@@ -1,20 +1,45 @@
 import React, { Component } from 'react';
 import {View, Text, ScrollView , FlatList, StyleSheet, Dimensions} from 'react-native';
-import { connect } from 'react-redux';
 
+let teste = [
+    {
+        nome: 'Teste 1',
+        Hora: '10:20',
+        ultimaMsg: 'Tudo Bem?'
+    },
+    {
+        nome: 'Teste 2',
+        Hora: '00:10',
+        ultimaMsg: 'Tchaudfdsfsdfsdf'
+    },
+    {
+        nome: 'Teste 3',
+        Hora: '14:30',
+        ultimaMsg: 'Ok Então'
+    },
+    {
+        nome: 'Teste 4',
+        Hora: '12:22',
+        ultimaMsg: 'Beleza!'
+    }
+];
 
-class ListaContatosObj extends Component {
-
+export class ListaConversas extends Component {
     render() {
+        console.log( teste );
         return (
             <ScrollView style={styles.containerView} >
             <FlatList
-                data={ this.props.contatos }
+                data={ teste }
                 renderItem={ item => { 
+                console.log( item );
                 return(
                     <View style={styles.container}>
                         <Text style={styles.text} >{item.item.nome}</Text>
-                        <Text style={styles.subtext} >{item.item.email}</Text>
+                        <View style={styles.lineContainer}>
+                            <Text style={styles.subtext} >{item.item.ultimaMsg}</Text>
+                            <Text style={styles.subtext} >{item.item.Hora}</Text>
+                        </View>
                     </View>
                 );} }
             />
@@ -46,12 +71,10 @@ const styles = StyleSheet.create({
         color: "#a0a0a0",
         paddingBottom: 1,
         marginBottom: 2
+    },
+    lineContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: (width - 20)
     }
 });
-
-mapStateToProps = State => ({
-    userEmail: State.AuthReducer.email,
-    contatos: State.ContatosReducer.contatos
-})
-
-export const ListaContatos = connect( mapStateToProps, {} )( ListaContatosObj );

@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { View, Text, StatusBar } from 'react-native';
-import { SafeAreaView } from 'react-navigation';
 import { connect } from 'react-redux';
 
 import { 
     AddContatosButon,
     ListaContatosVazio,
-    ListaContatos
+    ListaContatos,
+    LIstaConversasVazio,
+    ListaConversas
 } from '../components/MainTab/';
 
 import { reloadListaContatos } from '../redux/actions/ContatosActions';
@@ -17,11 +18,23 @@ export class Conversas extends Component {
         headerTitle: "Conversas"
     }
     render() {
+        if( false )
         return (
-            <SafeAreaView>
+            <View>
                 <StatusBar translucent={false} backgroundColor="#C2185B" barStyle="light-content" />
-                <Text>Conversas</Text>
-            </SafeAreaView>
+                <LIstaConversasVazio />
+            </View>
+        );
+
+        return (
+            <View style={{ 
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center' 
+            }} >
+                <StatusBar translucent={false} backgroundColor="#C2185B" barStyle="light-content" />
+                <ListaConversas />
+            </View>
         );
     }
 }

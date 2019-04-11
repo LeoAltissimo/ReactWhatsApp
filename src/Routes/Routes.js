@@ -16,8 +16,18 @@ import {
 // Main tab navigation
 export const TabMain = createMaterialTopTabNavigator(
   {
-      TabConversas: Conversas,
-      TabContatos: Contatos
+      TabConversas: {
+        screen: Conversas,
+        navigationOptions: () => ({
+            title: `Conversas`,
+          })
+      },
+      TabContatos: {
+          screen: Contatos,
+          navigationOptions: () => ({
+            title: `Contatos`,
+          })
+      }
   },
   {
       tabBarOptions: {
