@@ -5,12 +5,7 @@ import firebase from 'firebase';
 
 import b64 from 'base-64';
 
-import {
-    setEmailTopAdd,
-    clearTextIfIsDefault,
-    atualizaListaContatos
-    
-} from '../../redux/actions/ContatosActions';
+import * as contatosActions from '../../redux/actions/ContatosActions';
 
 class FormAddContato extends Component {
     VerifyUserInDb(){
@@ -116,11 +111,7 @@ const mapStateToProps = State => ({
     emailUser: State.AuthReducer.email
 });
 
-const mapDispatchToProps = {
-    setEmailTopAdd,
-    clearTextIfIsDefault,
-    atualizaListaContatos
-};
+const mapDispatchToProps = { ...contatosActions };
 
 const ConnectedFormAdd = connect( mapStateToProps, mapDispatchToProps )( FormAddContato );
 

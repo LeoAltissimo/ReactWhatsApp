@@ -7,11 +7,14 @@ import {
     initialState
 } from '../reducers/ContatosReducer';
 
+// Action que seta um novo valor para o campo de busca de email
+// @emailToAdd email a ser adicionado na lista de contatos
 export function setEmailTopAdd( emailToAdd ){
     return ({ type: SET_EMAIL_TO_ADD, payload: { setEmailTopAdd: emailToAdd } });
 }
 
-
+// Action que lipa o campo de busca de email
+// @text o conteudo presente no campo
 export const clearTextIfIsDefault = (text) => {
 
     if( text === initialState.emailToAdd )
@@ -25,6 +28,8 @@ export const clearTextIfIsDefault = (text) => {
     });
 };
 
+// Action atualuiza a lista de contatos existentes em um usuario
+// @userEmail o email do usuário atual para realizar a query de contatos
 export function reloadListaContatos(userEmail){
     uidUser = b64.encode( userEmail );
 
@@ -38,6 +43,7 @@ export function reloadListaContatos(userEmail){
         });
     };
 }
+
 
 export function atualizaListaContatos( contatosObj ){
     return({ type: SET_LISTA_CONTATOS, payload: { contatos: contatosObj } });
