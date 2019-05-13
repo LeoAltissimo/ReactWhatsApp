@@ -6,7 +6,7 @@ import {
 
 //Views Import
 import { 
-    FormLogin, 
+    ConnectedFormLogin, 
     FormCadastro,
     Conversas,
     Contatos,
@@ -51,7 +51,7 @@ export const TabMain = createMaterialTopTabNavigator(
 // Initial Route Stack
 const rotas = createStackNavigator(
   {
-    FormLogin: FormLogin,
+    FormLogin: ConnectedFormLogin,
     FormCadastro: FormCadastro,
     TabMain: TabMain,
     AddContato: AddContato

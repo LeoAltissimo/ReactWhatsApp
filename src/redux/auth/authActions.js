@@ -1,38 +1,61 @@
 import authAPI from "../../services/auth";
+import firebase from 'firebase';
 import b64 from 'base-64';
 
 // set value of login/signup email field
 // @value string new value of login/signup email
-export const setEmailLogin = (value) => {
-  return { type: "AUTH_SET_EMAIL_LOGIN", payload: value }
+export const setEmailLogin = (value = null) => {
+  if (value !== null)
+    return { type: "AUTH_SET_EMAIL_LOGIN", payload: value }
+  else
+    return { type: "AUTH_RESET_EMAIL_LOGIN" }
 }
 
 // set value of login/signup password field
 // @value string new value of login/signup password
-export const setPasswordLLogin = (value) => {
-  return { type: "AUTH_SET_PASSWORD_LOGIN", payload: value }
+export const setPasswordLogin = (value = null) => {
+  if (value !== null)
+    return { type: "AUTH_SET_PASSWORD_LOGIN", payload: value }
+  else
+    return { type: "AUTH_RESET_PASSWORD_LOGIN" }
 }
 
 // Action wait the promise to LOGIN (EMAIL / password) on FirebaseAPI
 // @email string with email of user
 // @password String with password of user
-export const makeLogin = (email, password, navigation) => async dispatch => {
+export const makeLogin = (email, password) => async dispatch => {
   dispatch({ type: "ATUH_LOGIN_LOADING" })
 
-  authAPI.authLogin({ email, password })
-    .then(() => {
-      navigation.navigate('TabMain');
-      dispatch({ type: "AUTH_LOGIN_SUCCESS" })
-    })
-    .catch((err) => {
-      dispatch({ type: "AUTH_LOGIN_ERROR", payload: { err } })
-    })
+  firebase.auth().signInWithEmailAndPassword(email, password)
+  .then(() =>   dispatch({ type: "AUTH_LOGIN_SUCCESS" }))
+  .catch(err => {
+    let errorMsg = '';
+
+    switch( err.code ) {
+      case "auth/invalid-email":
+        errorMsg = "E-mail inválido";
+        break;
+      case "auth/user-disabled":
+        errorMsg = "Usuário desativado";
+        break;
+      case "auth/user-not-found":
+        errorMsg = "Usuário não encontrado";
+        break;
+      case "auth/wrong-password":
+        errorMsg = "Senha incorreta";
+        break;
+    }
+    dispatch({ type: "AUTH_LOGIN_ERROR", payload: errorMsg })
+  })
 }
 
 // set value od name field of signup
 // @value new value of name fiel
 export const setNameSignup = (value) => {
-  return { type: "AUTH_SET_NAME_SIGNUP", payload: value }
+  if (valeu)
+    return { type: "AUTH_SET_NAME_SIGNUP", payload: value }
+  else
+    return { type: "AUTH_RESET_NAME_SIGNUP" }
 }
 
 // Make signup of new user

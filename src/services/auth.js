@@ -3,11 +3,9 @@ import firebase from 'firebase';
 // Make the request login with email and password to firebase
 // @data objet with email and passord
 export const authLogin = data => (
-  new Promise((resolve, reject) => {
     firebase.auth().signInWithEmailAndPassword(data.email, data.password)
-      .then(() => resolve())
-      .catch(err => reject(err))
-  })
+      .then(() => true)
+      .catch(err => err)
 );
 
 // Make the request to signup a new user on firebaseAPI

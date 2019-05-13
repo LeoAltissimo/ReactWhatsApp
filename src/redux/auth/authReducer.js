@@ -1,14 +1,14 @@
 export const initialState = {
   // login
   email: 'E-mail',
-  password: 'password',
+  password: 'Senha',
   loginActionLoading: false,
   showPassword: true,
   loginError: false,
   loginErrorMsg: null,
   loginStatus: false,
   // signup
-  name: 'name',
+  name: 'Nome',
   signupActionLoading: false,
   signupError: false,
   signupErrorMsg: null
@@ -20,15 +20,27 @@ export default function reducer(State = initialState, action) {
     case "AUTH_SET_EMAIL_LOGIN":
       return {
         ...State,
-        email:
-          action.payload
+        email: action.payload
+      };
+
+    case "AUTH_RESET_EMAIL_LOGIN":
+      return {
+        ...State,
+        email: initialState.email
       };
 
     case "AUTH_SET_PASSWORD_LOGIN":
       return {
         ...State,
-        password: action.payload.text,
-        showPassword: Boolean(initialState.password === action.payload.text)
+        password: action.payload,
+        showPassword: Boolean(initialState.password === action.payload)
+      };
+
+    case "AUTH_RESET_PASSWORD_LOGIN":
+      return {
+        ...State,
+        password: initialState.password,
+        showPassword: true
       };
 
     case "ATUH_LOGIN_LOADING":
@@ -39,9 +51,11 @@ export default function reducer(State = initialState, action) {
     case "AUTH_LOGIN_ERROR":
       return {
         ...State,
+        email: initialState.email,
+        password: initialState.password,
         loginActionLoading: false,
         loginError: true,
-        loginErrorMsg: action.payload.CodeErro
+        loginErrorMsg: action.payload
       };
 
     case "AUTH_LOGIN_SUCCESS":
@@ -58,6 +72,12 @@ export default function reducer(State = initialState, action) {
       return {
         ...State,
         name: action.payload.text
+      };
+
+    case "AUTH_RESET_NAME_SIGNUP":
+      return {
+        ...State,
+        name: initialState.name
       };
 
     case "ATUH_SIGNUP_LOADING":

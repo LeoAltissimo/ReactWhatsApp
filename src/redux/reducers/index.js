@@ -4,7 +4,8 @@ import {
     applyMiddleware 
 } from 'redux'
 import thunk from 'redux-thunk'
-import AuthReducer from './AuthReducer';
+import logger from 'redux-logger';
+import AuthReducer from '../auth/authReducer';
 import ContatosReducer from './ContatosReducer';
 
 
@@ -13,4 +14,4 @@ const reducers = combineReducers({
     ContatosReducer
 });
 
-export default createStore( reducers, applyMiddleware(thunk) );
+export default createStore( reducers, applyMiddleware(...[thunk, logger]) );
