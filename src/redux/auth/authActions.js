@@ -27,32 +27,32 @@ export const makeLogin = (email, password) => async dispatch => {
   dispatch({ type: "ATUH_LOGIN_LOADING" })
 
   firebase.auth().signInWithEmailAndPassword(email, password)
-  .then(() =>   dispatch({ type: "AUTH_LOGIN_SUCCESS" }))
-  .catch(err => {
-    let errorMsg = '';
+    .then(() => dispatch({ type: "AUTH_LOGIN_SUCCESS" }))
+    .catch(err => {
+      let errorMsg = '';
 
-    switch( err.code ) {
-      case "auth/invalid-email":
-        errorMsg = "E-mail inválido";
-        break;
-      case "auth/user-disabled":
-        errorMsg = "Usuário desativado";
-        break;
-      case "auth/user-not-found":
-        errorMsg = "Usuário não encontrado";
-        break;
-      case "auth/wrong-password":
-        errorMsg = "Senha incorreta";
-        break;
-    }
-    dispatch({ type: "AUTH_LOGIN_ERROR", payload: errorMsg })
-  })
+      switch (err.code) {
+        case "auth/invalid-email":
+          errorMsg = "E-mail inválido";
+          break;
+        case "auth/user-disabled":
+          errorMsg = "Usuário desativado";
+          break;
+        case "auth/user-not-found":
+          errorMsg = "Usuário não encontrado";
+          break;
+        case "auth/wrong-password":
+          errorMsg = "Senha incorreta";
+          break;
+      }
+      dispatch({ type: "AUTH_LOGIN_ERROR", payload: errorMsg })
+    })
 }
 
 // set value od name field of signup
 // @value new value of name fiel
-export const setNameSignup = (value) => {
-  if (valeu)
+export const setNameSignup = (value = null) => {
+  if (value !== null)
     return { type: "AUTH_SET_NAME_SIGNUP", payload: value }
   else
     return { type: "AUTH_RESET_NAME_SIGNUP" }
@@ -66,11 +66,35 @@ export const setNameSignup = (value) => {
 export const makeSignup = (email, password, name) => async dispatch => {
   dispatch({ type: "AUTH_SIGNUP_LOADING" })
 
-  authAPI.authSignup({ email, password })
+  firebase.auth().createUserWithEmailAndPassword(email, password)
     .then(() => {
-      authAPI.authPostNewUser({ idUser: b64.encode(email), name })
+      let idUser = b64.encode(email);
+
+      firebase.database().ref(`user/${idUser}`).set({ name })
         .then(() => dispatch({ type: "AUTH_SIGNUP_SUCCESS" }))
-        .catch(err => dispatch({ type: "AUTH_SIGNUP_ERROR", payload: err }))
+        .catch(err => {
+          let errorMsg = 'Erro ao cadastrar o usuário.';
+          dispatch({ type: "AUTH_SIGNUP_ERROR", payload: errorMsg })
+        })
     })
-    .catch(err => dispatch({ type: "AUTH_SIGNUP_ERROR", payload: err }))
+    .catch(err => {
+      let errorMsg = '';
+
+      switch (err.code) {
+        case "auth/email-already-in-use":
+          errorMsg = "E-mail já esta em uso";
+          break;
+        case "auth/invalid-email":
+          errorMsg = "E-mail inválido";
+          break;
+        case "auth/operation-not-allowed":
+          errorMsg = "Cadastro não permitido";
+          break;
+        case "auth/weak-password":
+          errorMsg = "Escolha um senha mais dificíl.";
+          break;
+      }
+
+      dispatch({ type: "AUTH_SIGNUP_ERROR", payload: errorMsg })
+    })
 }

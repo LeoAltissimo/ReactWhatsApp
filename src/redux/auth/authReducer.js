@@ -71,7 +71,7 @@ export default function reducer(State = initialState, action) {
     case "AUTH_SET_NAME_SIGNUP":
       return {
         ...State,
-        name: action.payload.text
+        name: action.payload
       };
 
     case "AUTH_RESET_NAME_SIGNUP":
@@ -80,8 +80,9 @@ export default function reducer(State = initialState, action) {
         name: initialState.name
       };
 
-    case "ATUH_SIGNUP_LOADING":
+    case "AUTH_SIGNUP_LOADING":
       return {
+        ...State,
         signupActionLoading: true
       };
 
@@ -90,7 +91,7 @@ export default function reducer(State = initialState, action) {
         ...State,
         signupActionLoading: false,
         signupError: true,
-        signupErrorMsg: action.payload.CodeErro
+        signupErrorMsg: action.payload
       };
 
     case "AUTH_SIGNUP_SUCCESS":

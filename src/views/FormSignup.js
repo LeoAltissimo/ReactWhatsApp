@@ -1,26 +1,29 @@
 import React from 'react';
-import {
-  StyleSheet,
-  ImageBackground,
-  View,
+import { 
+  View, 
   KeyboardAvoidingView,
-  Text,
+  StyleSheet, 
+  ImageBackground,
   TextInput,
   Button,
-  TouchableOpacity
+  Text
 } from 'react-native';
 import { connect } from 'react-redux';
 import * as authActions from '../redux/auth/authActions';
 
 const formLoginBackground = require('../../assets/imgs/formLoginBackground.jpg');
 
-class FormLogin extends React.Component {
+class FormSignup extends React.Component {
   static navigationOptions = {
     header: null
   }
 
   componentWillReceiveProps(props) {
-    if(!props.loginActionLoading && props.loginStatus ) {
+    if(
+        this.props.signupActionLoading === true && 
+        props.signupActionLoading === false &&
+        props.signupError === false 
+      ) {
       this.props.navigation.navigate('TabMain');
     }
   }
@@ -28,7 +31,7 @@ class FormLogin extends React.Component {
   clearTextIfIsDefault(filed = null) {
     if (!filed)
       return false;
-      
+
     switch (filed) {
       case 'email':
         if (this.props.email === 'E-mail')
@@ -38,6 +41,11 @@ class FormLogin extends React.Component {
       case 'password':
         if (this.props.password === 'Senha')
           this.props.setPasswordLogin('');
+        break;
+
+      case 'name':
+        if (this.props.name === 'Nome')
+          this.props.setNameSignup('');
         break;
 
       default:
@@ -60,6 +68,11 @@ class FormLogin extends React.Component {
           this.props.setPasswordLogin();
         break;
 
+      case 'name':
+        if (this.props.name === '')
+          this.props.setNameSignup();
+        break;
+
       default:
         return false;
     }
@@ -78,22 +91,21 @@ class FormLogin extends React.Component {
           this.props.setPasswordLogin(value);
         break;
 
+      case 'name':
+        this.props.setNameSignup(value);
+        break;
+
       default:
         return false;
     }
   }
 
-  sendLogin() {
-    const { email, password, makeLogin } = this.props;
-    makeLogin(email, password);
+  sendSingup() {
+    const { email, password, name, makeSignup } = this.props;
+    makeSignup(email, password, name);
   }
 
   render() {
-    const {
-      loginError,
-      loginErrorMsg
-    } = this.props;
-
     return (
       <ImageBackground
         source={formLoginBackground}
@@ -102,17 +114,17 @@ class FormLogin extends React.Component {
         {/* header */}
         <View style={styles.containerTitle}>
           <Text style={styles.title}>
-            WhatsApp Teste
+            Cadastro
           </Text>
         </View>
 
-        {/* Login form */}
+        {/* Signup form */}
         <KeyboardAvoidingView 
-          style={styles.containerForm}
+          style={styles.containerForm} 
           behavior="padding"
         >
           <TextInput
-            style={styles.fieldLogin}
+            style={styles.fieldSignup}
             value={this.props.email}
             textContentType={'emailAddress'}
             autoComplete="email"
@@ -123,7 +135,7 @@ class FormLogin extends React.Component {
             onEndEditing={() => this.checkTextIsNull('email')}
           />
           <TextInput
-            style={styles.fieldLogin}
+            style={styles.fieldSignup}
             value={this.props.password}
             textContentType={'password'}
             secureTextEntry={!this.props.showPassword}
@@ -131,28 +143,29 @@ class FormLogin extends React.Component {
             onChangeText={(text) => this.setText('password', text)}
             onEndEditing={() => this.checkTextIsNull('password')}
           />
-
-          {/* Login Error Mensage */}
-          {loginError &&
-            <Text style={styles.errorMenssage}>{loginErrorMsg}</Text>
-          }
-
-          {/* Link to SingUp */}
-          <TouchableOpacity
-            onPress={() => (this.props.navigation.navigate('FormSignup'))}
-          >
-            <Text style={styles.linkSignup}>
-              Ainda nao tem cadastro? Cadastre-se!
-            </Text>
-          </TouchableOpacity>
+          <TextInput
+            style={styles.fieldSignup}
+            value={this.props.name}
+            textContentType={'name'}
+            autoCapitalize="words"
+            onFocus={() => this.clearTextIfIsDefault('name')}
+            onChangeText={(text) => this.setText('name', text)}
+            onEndEditing={() => this.checkTextIsNull('name')}
+          />
+        {/* Login Error Mensage */}
+        {this.props.signupError &&
+          <Text style={styles.errorMenssage}>
+            {this.props.signupErrorMsg}
+          </Text>
+        }
         </KeyboardAvoidingView>
 
-        {/* Login Button */}
+        {/* Signup Button */}
         <View style={styles.containerButton}>
-          <Button
-            title='Entrar'
-            color='#287f62'
-            onPress={() => this.sendLogin()}
+          <Button 
+              title='Cadastrar' 
+              color='#287f62'
+              onPress={ () => this.sendSingup()}
           />
         </View>
 
@@ -171,8 +184,8 @@ const styles = StyleSheet.create({
 
   // header style
   containerTitle: {
-    flex: 4,
-    justifyContent: 'center',
+    flex: 3,
+    justifyContent: 'flex-end',
   },
   title: {
     fontSize: 28,
@@ -183,14 +196,14 @@ const styles = StyleSheet.create({
 
   // LoginForm Style
   containerForm: {
-    flex: 5,
+    flex: 6,
     justifyContent: 'center',
   },
   linkSignup: {
     color: '#fff',
     fontSize: 14
   },
-  fieldLogin: {
+  fieldSignup: {
     color: '#fff',
     fontSize: 22,
     fontWeight: 'bold',
@@ -216,16 +229,16 @@ const mapStateToProps = store => ({
   email: store.AuthReducer.email,
   password: store.AuthReducer.password,
   showPassword: store.AuthReducer.showPassword,
-  loginActionLoading: store.AuthReducer.loginActionLoading,
-  loginStatus: store.AuthReducer.loginStatus,
-  loginError: store.AuthReducer.loginError,
-  loginErrorMsg: store.AuthReducer.loginErrorMsg
+  name: store.AuthReducer.name,
+  signupActionLoading: store.AuthReducer.signupActionLoading,
+  signupError: store.AuthReducer.signupError,
+  signupErrorMsg: store.AuthReducer.signupErrorMsg
 });
 
 const mapDispatchToProps = {
   ...authActions
 };
 
-const ConnectedFormLogin = connect(mapStateToProps, mapDispatchToProps)(FormLogin);
+const ConnectedFormSignup = connect(mapStateToProps, mapDispatchToProps)(FormSignup);
 
-export { ConnectedFormLogin }
+export { ConnectedFormSignup }

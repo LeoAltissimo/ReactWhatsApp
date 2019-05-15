@@ -46,7 +46,6 @@ class ContatosCmpnt extends Component {
     }
 
     componentWillMount(){
-        console.log('reloldando');
         this.props.reloadListaContatos( this.props.userEmail );
     }
 
