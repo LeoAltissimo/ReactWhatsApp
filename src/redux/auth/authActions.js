@@ -1,6 +1,7 @@
-import authAPI from "../../services/auth";
+import { AsyncStorage } from 'react-native';
 import firebase from 'firebase';
 import b64 from 'base-64';
+
 
 // set value of login/signup email field
 // @value string new value of login/signup email
@@ -27,7 +28,14 @@ export const makeLogin = (email, password) => async dispatch => {
   dispatch({ type: "ATUH_LOGIN_LOADING" })
 
   firebase.auth().signInWithEmailAndPassword(email, password)
-    .then(() => dispatch({ type: "AUTH_LOGIN_SUCCESS" }))
+    .then(() => {
+      try {
+        AsyncStorage.setItem('loginStatus', 'true')
+        dispatch({ type: "AUTH_LOGIN_SUCCESS" });
+      } catch (error) {
+        console.log(error);
+      }
+    })
     .catch(err => {
       let errorMsg = '';
 
@@ -47,6 +55,12 @@ export const makeLogin = (email, password) => async dispatch => {
       }
       dispatch({ type: "AUTH_LOGIN_ERROR", payload: errorMsg })
     })
+}
+
+// Set the login status get of local storage
+// @status login status
+export const setLogin = (status) => dispatch => {
+  dispatch({type: "AUTH_SET_LOGIN_STATUS", payload: status});
 }
 
 // set value od name field of signup

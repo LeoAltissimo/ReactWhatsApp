@@ -7,7 +7,8 @@ import {
   Text,
   TextInput,
   Button,
-  TouchableOpacity
+  TouchableOpacity,
+  AsyncStorage
 } from 'react-native';
 import { connect } from 'react-redux';
 import * as authActions from '../redux/auth/authActions';
@@ -17,6 +18,15 @@ const formLoginBackground = require('../../assets/imgs/formLoginBackground.jpg')
 class FormLogin extends React.Component {
   static navigationOptions = {
     header: null
+  }
+
+  componentWillMount() {
+    AsyncStorage.getItem('loginStatus', (err, result) => {
+      if( result ) {
+        this.props.setLogin(true);
+        this.props.navigation.navigate('TabMain');
+      }
+    });
   }
 
   componentWillReceiveProps(props) {

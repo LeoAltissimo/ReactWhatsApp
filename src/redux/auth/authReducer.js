@@ -66,6 +66,12 @@ export default function reducer(State = initialState, action) {
         loginErrorMsg: null,
         loginStatus: true
       };
+    
+    case "AUTH_SET_LOGIN_STATUS":
+      return {
+        ...State,
+        loginStatus: action.payload,
+      }
 
     // signup
     case "AUTH_SET_NAME_SIGNUP":

@@ -1,50 +1,48 @@
-import { 
-  createStackNavigator, 
+import {
+  createStackNavigator,
   createAppContainer,
   createMaterialTopTabNavigator
 } from 'react-navigation';
 
 //Views Import
-import { 
-    ConnectedFormLogin, 
-    ConnectedFormSignup,
-    Conversas,
-    Contatos,
-    AddContato
+import {
+  ConnectedFormLogin,
+  ConnectedFormSignup,
+  ConversationList,
 } from '../views';
 
 // Main tab navigation
 export const TabMain = createMaterialTopTabNavigator(
   {
-      TabConversas: {
-        screen: Conversas,
-        navigationOptions: () => ({
-            title: `Conversas`,
-          })
-      },
-      TabContatos: {
-          screen: Contatos,
-          navigationOptions: () => ({
-            title: `Contatos`,
-          })
-      }
+    TabConversas: {
+      screen: ConversationList,
+      navigationOptions: () => ({
+        title: `Conversas`,
+      })
+    },
+    TabContatos: {
+      screen: ConversationList,
+      navigationOptions: () => ({
+        title: `Contatos`,
+      })
+    }
   },
   {
-      tabBarOptions: {
-          scrollEnabled: false,
-          labelStyle: {
-              fontSize: 12,
-          },
-          style: {
-              backgroundColor: '#287f62',
-              justifyContent: 'center',
-              paddingTop: 30
-          },
-          indicatorStyle: {
-              backgroundColor: '#fff'
-          },
+    tabBarOptions: {
+      scrollEnabled: false,
+      labelStyle: {
+        fontSize: 12,
       },
-      initialRouteName: 'TabConversas'
+      style: {
+        backgroundColor: '#287f62',
+        justifyContent: 'center',
+        paddingTop: 30
+      },
+      indicatorStyle: {
+        backgroundColor: '#fff'
+      },
+    },
+    initialRouteName: 'TabConversas'
   }
 );
 
@@ -54,12 +52,12 @@ const rotas = createStackNavigator(
     FormLogin: ConnectedFormLogin,
     FormSignup: ConnectedFormSignup,
     TabMain: TabMain,
-    AddContato: AddContato
+    AddContato: ConversationList
   },
   {
     initialRouteName: 'FormLogin',
     headerMode: "none"
   }
 );
-  
+
 export const StackNavigation = createAppContainer(rotas);

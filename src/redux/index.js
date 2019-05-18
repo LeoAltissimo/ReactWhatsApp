@@ -5,13 +5,11 @@ import {
 } from 'redux'
 import thunk from 'redux-thunk'
 import logger from 'redux-logger';
-import AuthReducer from '../auth/authReducer';
-import ContatosReducer from './ContatosReducer';
+import AuthReducer from './auth/authReducer';
 
 
 const reducers = combineReducers({
-    AuthReducer,
-    ContatosReducer
+    AuthReducer
 });
 
 export default createStore( reducers, applyMiddleware(...[thunk, logger]) );
