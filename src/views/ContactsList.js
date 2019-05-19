@@ -7,13 +7,50 @@ import {
   Image,
   TextInput,
   Button,
-  ScrollView
+  ScrollView,
+  AsyncStorage
 } from 'react-native';
-import { connect } from 'redux';
+import { connect } from 'react-redux';
+import * as contactActions from '../redux/contacts/contactsActions';
 
 const profileImage = require('../../assets/imgs/default-profile.png');
 
-export class ContactsList extends React.Component {
+class ContactsList extends React.Component {
+  componentWillMount() {
+    AsyncStorage.getItem('emailUser', (err, result) => {
+      this.props.getContactsList(result)
+    });
+  }
+
+  addNewContact() {
+    const {
+      email, 
+      addNewContact,
+      setNewContactEmailError
+    } = this.props;
+
+    if( email.indexOf('@') === -1 || email.indexOf('.') === -1 ) {
+      setNewContactEmailError("E-mail Inválido.");
+      return false;
+    }
+
+    AsyncStorage.getItem('emailUser', (err, result) => {
+      if( result ) {
+        if( result !== email ){
+          addNewContact(email, result);
+          return true;
+        }
+        else {
+          setNewContactEmailError("Mesmo email desta conta.");
+          return false;
+        }
+      }
+      setNewContactEmailError("Erro! Tente realizar seu login novamente.");
+      return false;
+    });
+
+  }
+
   render() {
     return (
       <KeyboardAvoidingView>
@@ -29,19 +66,26 @@ export class ContactsList extends React.Component {
           <View style={styles.addContactFieldContainer}>
             <TextInput 
               style={styles.fieldAddContact}
-              value={''}
+              value={this.props.email}
               placeholder="E-mail"
               textContentType={'emailAddress'}
               autoComplete="email"
               autoCapitalize="none"
               keyboardType="email-address"
-            />
+              onChangeText={text => this.props.setNewContactEmail(text)}
+            />        
+            {/* Add contact error mensage */}
+            {this.props.addContactError &&
+              <Text style={styles.errorMenssage}>
+                {this.props.addContactError}
+              </Text>
+            }
           </View>
           <View style={styles.addContactButtonContainer}>
             <Button
               title='Adicionar'
               color='#287f62'
-              onPress={() => this.sendLogin()}
+              onPress={() => this.addNewContact()}
             />
           </View>
         </View>
@@ -90,7 +134,7 @@ const styles = new StyleSheet.create({
     borderBottomColor: '#287f62',
     borderBottomWidth: 1,
     width: "100%",
-    marginVertical: 20
+    marginVertical: 6
   },
   addContactFieldContainer: {
     width: "60%",
@@ -100,8 +144,11 @@ const styles = new StyleSheet.create({
     width: "40%",
     paddingHorizontal: 8
   },
-
-
+  errorMenssage: {
+    color: '#ff0000',
+    fontSize: 11,
+    marginBottom: 8
+  },
   // Contatcts part
   itemConversationContainer: {
     padding: 8,
@@ -115,3 +162,17 @@ const styles = new StyleSheet.create({
     height: 40
   }
 });
+
+const mapStateToProps = store => ({
+  email: store.ContactsReducer.newContactEmail,
+  addContactError: store.ContactsReducer.addContactError
+});
+
+const mapDispatchToProps = {
+  ...contactActions
+};
+
+const ConnectedContactsList = 
+  connect(mapStateToProps, mapDispatchToProps)(ContactsList);
+
+export { ConnectedContactsList }

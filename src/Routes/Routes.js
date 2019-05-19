@@ -9,7 +9,7 @@ import {
   ConnectedFormLogin,
   ConnectedFormSignup,
   ConversationList,
-  ContactsList
+  ConnectedContactsList
 } from '../views';
 
 // Main tab navigation
@@ -22,7 +22,7 @@ export const TabMain = createMaterialTopTabNavigator(
       })
     },
     TabContatos: {
-      screen: ContactsList,
+      screen: ConnectedContactsList,
       navigationOptions: () => ({
         title: `Contatos`,
       })

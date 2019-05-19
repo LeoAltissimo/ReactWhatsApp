@@ -2,9 +2,10 @@ import { AsyncStorage } from 'react-native';
 import firebase from 'firebase';
 import b64 from 'base-64';
 
-
-// set value of login/signup email field
-// @value string new value of login/signup email
+/**
+ * Summary: Set value of login/signup email field
+ * @param {String} value | New value to login/signup email
+ */
 export const setEmailLogin = (value = null) => {
   if (value !== null)
     return { type: "AUTH_SET_EMAIL_LOGIN", payload: value }
@@ -12,8 +13,10 @@ export const setEmailLogin = (value = null) => {
     return { type: "AUTH_RESET_EMAIL_LOGIN" }
 }
 
-// set value of login/signup password field
-// @value string new value of login/signup password
+/**
+ * Summary: Set value of login/signup password field
+ * @param {String} value | New value to login/signup password
+ */
 export const setPasswordLogin = (value = null) => {
   if (value !== null)
     return { type: "AUTH_SET_PASSWORD_LOGIN", payload: value }
@@ -21,16 +24,20 @@ export const setPasswordLogin = (value = null) => {
     return { type: "AUTH_RESET_PASSWORD_LOGIN" }
 }
 
-// Action wait the promise to LOGIN (EMAIL / password) on FirebaseAPI
-// @email string with email of user
-// @password String with password of user
+/**
+ * Summary: Action wait the promise to LOGIN (EMAIL / password) on FirebaseAPI
+ * @param {String} email    | email of user
+ * @param {String} password | password of user
+ */
 export const makeLogin = (email, password) => async dispatch => {
   dispatch({ type: "ATUH_LOGIN_LOADING" })
 
   firebase.auth().signInWithEmailAndPassword(email, password)
     .then(() => {
       try {
-        AsyncStorage.setItem('loginStatus', 'true')
+        AsyncStorage.setItem('loginStatus', 'true');
+        AsyncStorage.setItem('emailUser', email);
+
         dispatch({ type: "AUTH_LOGIN_SUCCESS" });
       } catch (error) {
         console.log(error);
@@ -57,14 +64,18 @@ export const makeLogin = (email, password) => async dispatch => {
     })
 }
 
-// Set the login status get of local storage
-// @status login status
+/**
+ * Summary: Set the login status get of local storage
+ * @param {Boolean} status | login status
+ */
 export const setLogin = (status) => dispatch => {
   dispatch({type: "AUTH_SET_LOGIN_STATUS", payload: status});
 }
 
-// set value od name field of signup
-// @value new value of name fiel
+/**
+ * Summary: Set value od name field of signup
+ * @param {String} value | New value to name fiel
+ */
 export const setNameSignup = (value = null) => {
   if (value !== null)
     return { type: "AUTH_SET_NAME_SIGNUP", payload: value }
@@ -72,11 +83,12 @@ export const setNameSignup = (value = null) => {
     return { type: "AUTH_RESET_NAME_SIGNUP" }
 }
 
-// Make signup of new user
-// await promisse to signup on FirebaseAPI
-// @email string with email of new user
-// @password string with password of new user
-// @name string with complete name of new user
+/**
+ * Summary: Make signup of new user on FirebaseAPI
+ * @param {String} email    | E-mail of new user
+ * @param {String} password | Password of new user
+ * @param {String} name     | Complete name of new user
+ */
 export const makeSignup = (email, password, name) => async dispatch => {
   dispatch({ type: "AUTH_SIGNUP_LOADING" })
 
