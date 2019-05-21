@@ -9,7 +9,8 @@ import {
   ConnectedFormLogin,
   ConnectedFormSignup,
   ConversationList,
-  ConnectedContactsList
+  ConnectedContactsList,
+  Conversation
 } from '../views';
 
 // Main tab navigation
@@ -53,10 +54,11 @@ const rotas = createStackNavigator(
     FormLogin: ConnectedFormLogin,
     FormSignup: ConnectedFormSignup,
     TabMain: TabMain,
-    AddContato: ConversationList
+    AddContato: ConversationList,
+    Conversation: Conversation
   },
   {
-    initialRouteName: 'FormLogin',
+    initialRouteName: 'Conversation',
     headerMode: "none"
   }
 );

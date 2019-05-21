@@ -1,8 +1,3 @@
-// list
-// emailfieldvalue
-// addContactLoading
-// Add contact error
-
 const initialState = {
   newContactEmail: '',
   contactList: [],
@@ -43,6 +38,12 @@ export default function reducer(State = initialState, action) {
         ...State,
         addContactLoading: false,
         addContactError: action.payload
+      }
+
+    case "CONTACTS_GET_LIST_SUCCESS":        
+      return {
+        ...State,
+        contactList: action.payload
       }
 
     default:

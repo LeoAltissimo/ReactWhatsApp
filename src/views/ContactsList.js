@@ -12,31 +12,32 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import * as contactActions from '../redux/contacts/contactsActions';
+import ContactItem from "../components/ContactItem";
 
 const profileImage = require('../../assets/imgs/default-profile.png');
 
 class ContactsList extends React.Component {
   componentWillMount() {
     AsyncStorage.getItem('emailUser', (err, result) => {
-      this.props.getContactsList(result)
+      this.props.getContactsList(result);
     });
   }
 
   addNewContact() {
     const {
-      email, 
+      email,
       addNewContact,
       setNewContactEmailError
     } = this.props;
 
-    if( email.indexOf('@') === -1 || email.indexOf('.') === -1 ) {
+    if (email.indexOf('@') === -1 || email.indexOf('.') === -1) {
       setNewContactEmailError("E-mail Inválido.");
       return false;
     }
 
     AsyncStorage.getItem('emailUser', (err, result) => {
-      if( result ) {
-        if( result !== email ){
+      if (result) {
+        if (result !== email) {
           addNewContact(email, result);
           return true;
         }
@@ -51,64 +52,65 @@ class ContactsList extends React.Component {
 
   }
 
+  renderContacts() {
+    const { contactList } = this.props;
+    let contactListElm;
+
+    console.log("TESTE", contactList, contactList.length);
+
+    if (contactList && contactList.length > 0) {
+      contactListElm = contactList.map((item, index) =>
+        (<ContactItem item={item} key={index} />)
+      );
+    }
+
+    return contactListElm;
+  }
+
   render() {
     return (
-      <KeyboardAvoidingView>
-        {/* Add Contact part */}
-        <Text style={styles.addContactTitle}>
-          Adicionar Contato
+      <View>
+        <View>
+          {/* Add Contact part */}
+          <Text style={styles.addContactTitle}>
+            Adicionar Contato
         </Text>
-        <View
-          style={styles.addContactContainer}
-          flexDirection="row"
-          alignItems="center"
-        >
-          <View style={styles.addContactFieldContainer}>
-            <TextInput 
-              style={styles.fieldAddContact}
-              value={this.props.email}
-              placeholder="E-mail"
-              textContentType={'emailAddress'}
-              autoComplete="email"
-              autoCapitalize="none"
-              keyboardType="email-address"
-              onChangeText={text => this.props.setNewContactEmail(text)}
-            />        
-            {/* Add contact error mensage */}
-            {this.props.addContactError &&
-              <Text style={styles.errorMenssage}>
-                {this.props.addContactError}
-              </Text>
-            }
-          </View>
-          <View style={styles.addContactButtonContainer}>
-            <Button
-              title='Adicionar'
-              color='#287f62'
-              onPress={() => this.addNewContact()}
-            />
-          </View>
-        </View>
-
-        {/* Conversation part */}
-        <ScrollView>
           <View
-            style={styles.itemConversationContainer}
+            style={styles.addContactContainer}
             flexDirection="row"
             alignItems="center"
           >
-            <View>
-              <Image 
-                style={styles.conversationProfileImg}
-                source={profileImage}
+            <View style={styles.addContactFieldContainer}>
+              <TextInput
+                style={styles.fieldAddContact}
+                value={this.props.email}
+                placeholder="E-mail"
+                textContentType={'emailAddress'}
+                autoComplete="email"
+                autoCapitalize="none"
+                keyboardType="email-address"
+                onChangeText={text => this.props.setNewContactEmail(text)}
+              />
+              {/* Add contact error mensage */}
+              {this.props.addContactError &&
+                <Text style={styles.errorMenssage}>
+                  {this.props.addContactError}
+                </Text>
+              }
+            </View>
+            <View style={styles.addContactButtonContainer}>
+              <Button
+                title='Adicionar'
+                color='#287f62'
+                onPress={() => this.addNewContact()}
               />
             </View>
-            <View>
-              <Text>Nome contato</Text>
-            </View>
           </View>
+        </View>
+        <ScrollView>
+          {this.renderContacts()}
         </ScrollView>
-      </KeyboardAvoidingView>
+      </View>
     );
   }
 }
@@ -165,14 +167,16 @@ const styles = new StyleSheet.create({
 
 const mapStateToProps = store => ({
   email: store.ContactsReducer.newContactEmail,
-  addContactError: store.ContactsReducer.addContactError
+  addContactError: store.ContactsReducer.addContactError,
+  //
+  contactList: store.ContactsReducer.contactList
 });
 
 const mapDispatchToProps = {
   ...contactActions
 };
 
-const ConnectedContactsList = 
+const ConnectedContactsList =
   connect(mapStateToProps, mapDispatchToProps)(ContactsList);
 
 export { ConnectedContactsList }

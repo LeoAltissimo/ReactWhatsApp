@@ -82,7 +82,10 @@ export const getContactsList = (userEmail = null) => async dispatch =>{
 
   let uid = b64.encode(userEmail);
 
-  firebase.database().ref(`user/${uid}/contacts`).once('value')
-    .then(data => dispatch({ type: "CONTACTS_GET_LIST_SUCCESS", payload: data.val() }))
+  await firebase.database().ref(`user/${uid}/contacts`).once('value')
+    .then(data => {
+      let response = Object.values(data.val());
+      dispatch({ type: "CONTACTS_GET_LIST_SUCCESS", payload: response })
+    })
     .catch(err => dispatch({ type: "CONTACTS_GET_LIST_ERROR" }));
 }
