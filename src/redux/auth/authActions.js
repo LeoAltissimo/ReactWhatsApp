@@ -37,6 +37,7 @@ export const makeLogin = (email, password) => async dispatch => {
       try {
         AsyncStorage.setItem('loginStatus', 'true');
         AsyncStorage.setItem('emailUser', email);
+        AsyncStorage.setItem('uid', b64.encode(email));
 
         dispatch({ type: "AUTH_LOGIN_SUCCESS" });
       } catch (error) {

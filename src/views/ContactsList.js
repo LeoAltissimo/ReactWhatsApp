@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import * as contactActions from '../redux/contacts/contactsActions';
+import { newConversation } from '../redux/converation/conversationActions';
 import ContactItem from "../components/ContactItem";
 
 const profileImage = require('../../assets/imgs/default-profile.png');
@@ -52,15 +53,24 @@ class ContactsList extends React.Component {
 
   }
 
+  openConversation(email) {
+    this.props.newConversation(email);
+    this.props.navigation.navigate('Conversation')
+  }
+
   renderContacts() {
     const { contactList } = this.props;
     let contactListElm;
 
-    console.log("TESTE", contactList, contactList.length);
-
     if (contactList && contactList.length > 0) {
       contactListElm = contactList.map((item, index) =>
-        (<ContactItem item={item} key={index} />)
+        (
+        <ContactItem 
+          item={item} 
+          openConversation={this.openConversation.bind(this)}
+          key={index}
+         />
+        )
       );
     }
 
@@ -74,7 +84,7 @@ class ContactsList extends React.Component {
           {/* Add Contact part */}
           <Text style={styles.addContactTitle}>
             Adicionar Contato
-        </Text>
+          </Text>
           <View
             style={styles.addContactContainer}
             flexDirection="row"
@@ -173,7 +183,8 @@ const mapStateToProps = store => ({
 });
 
 const mapDispatchToProps = {
-  ...contactActions
+  ...contactActions,
+  newConversation
 };
 
 const ConnectedContactsList =

@@ -3,12 +3,18 @@ import {
   View,
   Image,
   Text,
-  StyleSheet
+  StyleSheet,
+  TouchableOpacity
 } from 'react-native';
 
 const profileImage = require('../../assets/imgs/default-profile.png');
 
 export default (props) => (
+  <TouchableOpacity 
+    onPress={() => {
+      props.openConversation(props.item.email)
+    }}
+  >
   <View
       style={styles.itemConversationContainer}
       flexDirection="row"
@@ -25,6 +31,7 @@ export default (props) => (
         <Text>{props.item.email}</Text>
       </View>
     </View>
+    </TouchableOpacity>
 );
 
 const styles = new StyleSheet.create({
