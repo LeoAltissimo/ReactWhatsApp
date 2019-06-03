@@ -4,11 +4,15 @@ import b64 from 'base-64';
 /**
  * Summary: Set value of id to load a new conversation
  * @param {String} recipientEmailid | E-mail of contact to start conversation
+ * @param {String} recipientId | Id of contact to open conversation
  */
-export const newConversation = (recipientEmailid) => {
-  let uid = b64.encode(recipientEmailid);
+export const newConversation = (recipientEmailid, recipientId= null) => {
+  let uid = '';
 
-  return ({ type: "CONVERSATION_NEW_RECIPIENT", payload: uid });
+  if( !recipientId )
+    uid = b64.encode(recipientEmailid);
+
+  return ({ type: "CONVERSATION_NEW_RECIPIENT", payload: recipientId || uid });
 }
 
 /**

@@ -1,51 +1,49 @@
 import React from 'react';
 import {
   StyleSheet,
-  View,
-  Text,
-  Image,
-  ScrollView
+  ScrollView,
+  AsyncStorage
 } from 'react-native';
-import { connect } from 'redux';
+import { connect } from 'react-redux';
+import * as conversationListActions from '../redux/conversationList/conversationListActions';
+import { newConversation } from '../redux/converation/conversationActions';
+import ConversationItem from "../components/ConversationItem";
 
-const profileImage = require('../../assets/imgs/default-profile.png');
+class ConversationList extends React.Component {
+  componentDidMount() {
+    AsyncStorage.getItem('uid', (err, result) => {
+      this.props.getConversationList(result);
+    });
+  }
 
-export class ConversationList extends React.Component {
+  openConversation(uid) {
+    this.props.newConversation(null, uid);
+    this.props.navigation.navigate('Conversation')
+  }
+
+  renderConversations() {
+    const { conversationList } = this.props;
+    let contactListElm;
+
+    if(conversationList && conversationList.length > 0) {
+      contactListElm = conversationList.map((item, index) => (
+        <ConversationItem 
+          item={item} 
+          openConversation={this.openConversation.bind(this)}
+          key={index}
+         />
+      ));
+    }
+
+    return contactListElm;
+  }
+
   render() {
     return (
       <ScrollView
         style={styles.conversationContainer}
       >
-        <View
-          style={styles.itemConversationContainer}
-          justifyContent="space-between"
-          flexDirection="row"
-        >
-          <View flexDirection="row">
-            <View style={styles.profileContainer}>
-              <Image
-                style={styles.conversationProfileImg}
-                source={profileImage}
-              />
-            </View>
-            <View style={styles.infoMensageContainer}>
-              <Text style={styles.udstedelse}>
-                Nome da Pessoa Que enviou
-            </Text>
-              <Text>
-                Pessoa: Ultima mensagem
-            </Text>
-            </View>
-          </View>
-          <View>
-            <Text style={styles.timeMensage}>
-              10:00
-            </Text>
-            <Text style={styles.unreadMensages}>
-              5
-            </Text>
-          </View>
-        </View>
+        {this.renderConversations()}
       </ScrollView>
     );
   }
@@ -54,30 +52,21 @@ export class ConversationList extends React.Component {
 const styles = new StyleSheet.create({
   conversationContainer: {
     flex: 1
-  },
-  itemConversationContainer: {
-    padding: 8,
-    borderBottomWidth: 0.5,
-    borderColor: "#f2f2f2"
-  },
-  profileContainer: {
-    marginRight: 16
-  },
-  udstedelse: {
-    fontWeight: 'bold'
-  },
-  unreadMensages: {
-    textAlign: 'center',
-    backgroundColor: "#09D261",
-    color: "#ffffff",
-    borderRadius: 50
-  },
-  timeMensage: {
-    color: "#09D261"
-  },
-  conversationProfileImg: {
-    borderRadius: 50,
-    width: 40,
-    height: 40
   }
 });
+
+const mapStateToProps = store => ({
+  conversationList: store.ConversationList.conversationList,
+  conversationListLoading: store.ConversationList.conversationListLoading,
+  conversationListError: store.ConversationList.conversationListError
+});
+
+const mapDispatchToProps = {
+  ...conversationListActions,
+  newConversation
+};
+
+const ConnectedConversationList =
+  connect(mapStateToProps, mapDispatchToProps)(ConversationList);
+
+export { ConnectedConversationList }

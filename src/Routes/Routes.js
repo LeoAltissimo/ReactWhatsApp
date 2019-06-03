@@ -8,7 +8,7 @@ import {
 import {
   ConnectedFormLogin,
   ConnectedFormSignup,
-  ConversationList,
+  ConnectedConversationList,
   ConnectedContactsList,
   ConnectedConversation
 } from '../views';
@@ -17,7 +17,7 @@ import {
 export const TabMain = createMaterialTopTabNavigator(
   {
     TabConversas: {
-      screen: ConversationList,
+      screen: ConnectedConversationList,
       navigationOptions: () => ({
         title: `Conversas`,
       })
@@ -54,7 +54,6 @@ const rotas = createStackNavigator(
     FormLogin: ConnectedFormLogin,
     FormSignup: ConnectedFormSignup,
     TabMain: TabMain,
-    AddContato: ConversationList,
     Conversation: ConnectedConversation
   },
   {
