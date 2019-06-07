@@ -1,65 +1,65 @@
-import { 
-  createStackNavigator, 
+import {
+  createStackNavigator,
   createAppContainer,
   createMaterialTopTabNavigator
 } from 'react-navigation';
 
 //Views Import
-import { 
-    FormLogin, 
-    FormCadastro,
-    Conversas,
-    Contatos,
-    AddContato
+import {
+  ConnectedFormLogin,
+  ConnectedFormSignup,
+  ConnectedConversationList,
+  ConnectedContactsList,
+  ConnectedConversation
 } from '../views';
 
 // Main tab navigation
 export const TabMain = createMaterialTopTabNavigator(
   {
-      TabConversas: {
-        screen: Conversas,
-        navigationOptions: () => ({
-            title: `Conversas`,
-          })
-      },
-      TabContatos: {
-          screen: Contatos,
-          navigationOptions: () => ({
-            title: `Contatos`,
-          })
-      }
+    TabConversas: {
+      screen: ConnectedConversationList,
+      navigationOptions: () => ({
+        title: `Conversas`,
+      })
+    },
+    TabContatos: {
+      screen: ConnectedContactsList,
+      navigationOptions: () => ({
+        title: `Contatos`,
+      })
+    }
   },
   {
-      tabBarOptions: {
-          scrollEnabled: false,
-          labelStyle: {
-              fontSize: 12,
-          },
-          style: {
-              backgroundColor: '#287f62',
-              justifyContent: 'center',
-              paddingTop: 30
-          },
-          indicatorStyle: {
-              backgroundColor: '#fff'
-          },
+    tabBarOptions: {
+      scrollEnabled: false,
+      labelStyle: {
+        fontSize: 12,
       },
-      initialRouteName: 'TabConversas'
+      style: {
+        backgroundColor: '#287f62',
+        justifyContent: 'center',
+        paddingTop: 30
+      },
+      indicatorStyle: {
+        backgroundColor: '#fff'
+      },
+    },
+    initialRouteName: 'TabConversas'
   }
 );
 
 // Initial Route Stack
 const rotas = createStackNavigator(
   {
-    FormLogin: FormLogin,
-    FormCadastro: FormCadastro,
+    FormLogin: ConnectedFormLogin,
+    FormSignup: ConnectedFormSignup,
     TabMain: TabMain,
-    AddContato: AddContato
+    Conversation: ConnectedConversation
   },
   {
     initialRouteName: 'FormLogin',
     headerMode: "none"
   }
 );
-  
+
 export const StackNavigation = createAppContainer(rotas);

@@ -1,4 +1,5 @@
-export { FormLogin } from './FormLogin';
-export { FormCadastro } from './FormCadastro';
-export { Conversas, Contatos  } from './Main';
-export { AddContato } from './AddContato';
+export { ConnectedFormLogin } from './FormLogin';
+export { ConnectedFormSignup } from './FormSignup';
+export { ConnectedConversationList } from './ConversationList';
+export { ConnectedContactsList } from './ContactsList';
+export { ConnectedConversation } from './Conversation';
