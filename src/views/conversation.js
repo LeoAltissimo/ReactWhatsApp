@@ -17,14 +17,12 @@ import {
 const backImg = require('../../assets/imgs/back-icon.png');
 const genericProfile = require('../../assets/imgs/default-profile.png');
 const sendIcon = require('../../assets/imgs/send-icon.png');
-const backgroundMsg = require('../../assets/imgs/background.png');
 
 const reciveIcon = require('../../assets/imgs/recive-tail.png');
 const sendTail = require('../../assets/imgs/send-tail.png');
 
 const Menssage = (props) => (
   <View style={style.mensageContainer}>
-    <Image source={reciveIcon} style={style.tailMensage}/>
     <Text style={style.mensage}>{props.item.mensage}</Text>
   </View>
 );
@@ -32,7 +30,6 @@ const Menssage = (props) => (
 const MenssageSend = (props) => (
   <View style={style.mensageContainerSend}>
     <Text style={style.mensageSend}>{props.item.mensage}</Text>
-    <Image source={sendTail} style={style.tailMensageSend}/>
   </View>
 );
 
@@ -101,7 +98,7 @@ class Conversation extends React.Component {
 
   render() {
     return (
-      <ImageBackground style={style.mainContainer} source={backgroundMsg}>
+      <View style={style.mainContainer}>
         <View style={style.headerBar}>
           <TouchableHighlight
             onPress={() => (this.props.navigation.navigate('TabMain'))}
@@ -114,9 +111,15 @@ class Conversation extends React.Component {
           </Text>
         </View>
 
-        <ScrollView style={style.conversationMensagesContainer}>
+        <ScrollView 
+          contentContainerStyle={style.conversationMensagesContainer} 
+          ref={ref => this.scrollView = ref}
+          onContentSizeChange={(contentWidth, contentHeight)=>{        
+          this.scrollView.scrollToEnd({animated: true});
+        }}>
           {this.renderMensages()}
         </ScrollView>
+        
         <KeyboardAvoidingView  behavior="padding">
           <View style={style.sendContainer}>
           <TextInput
@@ -133,7 +136,7 @@ class Conversation extends React.Component {
           </TouchableHighlight>
           </View>
         </KeyboardAvoidingView>
-      </ImageBackground>
+      </View>
     );
 
   }
@@ -141,15 +144,15 @@ class Conversation extends React.Component {
 
 const style = new StyleSheet.create({
   mainContainer: {
-    backgroundColor: '#E5DDD5',
+    backgroundColor: '#E8EBFF',
     flex: 1
   },
   conversationMensagesContainer: {
-    flexDirection: "column-reverse",
+    flexDirection: 'column',
     padding: 8
   },  
   headerBar: {
-    backgroundColor: '#287f62',
+    backgroundColor: '#3F51B5',
     flexDirection: 'row',
     alignItems: 'center',
     paddingTop: 30,
@@ -171,7 +174,7 @@ const style = new StyleSheet.create({
     fontWeight: 'bold'
   },
   sendButton: {
-    backgroundColor: '#287f62',
+    backgroundColor: '#FBC02D',
     borderRadius: 50,
     padding: 6
   },
@@ -189,10 +192,12 @@ const style = new StyleSheet.create({
   },
   sendContainer: {
     width: "100%",
+    backgroundColor: '#3F51B5',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 4,
+    paddingTop: 8,
     paddingBottom: 8,
   },
   
@@ -207,12 +212,13 @@ const style = new StyleSheet.create({
     height: 16
   },
   mensage: {
-    backgroundColor: "#ffffff",
-    paddingHorizontal: 8,
-    paddingVertical: 6,
-    borderTopRightRadius: 6,
-    borderBottomRightRadius: 6,
-    borderBottomLeftRadius: 6,
+    backgroundColor: '#8090EB',
+    color: '#fff',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderTopRightRadius: 12,
+    borderBottomRightRadius: 12,
+    borderBottomLeftRadius: 12,
   },
 
   // send
@@ -227,12 +233,12 @@ const style = new StyleSheet.create({
     height: 16
   },
   mensageSend: {
-    backgroundColor: "#DCF8C6",
-    paddingHorizontal: 8,
-    paddingVertical: 6,
-    borderTopLeftRadius: 6,
-    borderBottomRightRadius: 6,
-    borderBottomLeftRadius: 6,
+    backgroundColor: "#fff",
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderTopLeftRadius: 12,
+    borderBottomRightRadius: 12,
+    borderBottomLeftRadius: 12,
   }
 })
 

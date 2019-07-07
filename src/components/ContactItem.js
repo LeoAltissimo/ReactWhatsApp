@@ -27,7 +27,9 @@ export default (props) => (
         />
       </View>
       <View>
-        <Text>{props.item.name}</Text>
+        <Text style={styles.udstedelse}>
+          {props.item.name}
+        </Text>
         <Text>{props.item.email}</Text>
       </View>
     </View>
@@ -45,5 +47,8 @@ const styles = new StyleSheet.create({
     borderRadius: 50,
     width: 40,
     height: 40
-  }
+  },
+  udstedelse: {
+    fontWeight: 'bold'
+  },
 });

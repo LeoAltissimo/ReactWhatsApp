@@ -111,7 +111,7 @@ class ContactsList extends React.Component {
             <View style={styles.addContactButtonContainer}>
               <Button
                 title='Adicionar'
-                color='#287f62'
+                color='#FBC02D'
                 onPress={() => this.addNewContact()}
               />
             </View>
@@ -143,10 +143,22 @@ const styles = new StyleSheet.create({
   fieldAddContact: {
     color: '#4d4d4d',
     fontSize: 14,
-    borderBottomColor: '#287f62',
-    borderBottomWidth: 1,
-    width: "100%",
+    fontWeight: '100',
+    borderColor: '#3F51B5',
+    borderWidth: 1,
+    paddingTop: 6,
+    paddingBottom: 6,
+    paddingLeft: 6,
+    paddingRight: 6,
+    borderRadius: 10,
     marginVertical: 6
+
+    // color: '#4d4d4d',
+    // fontSize: 14,
+    // borderBottomColor: '#287f62',
+    // borderBottomWidth: 1,
+    // width: "100%",
+    // marginVertical: 6
   },
   addContactFieldContainer: {
     width: "60%",

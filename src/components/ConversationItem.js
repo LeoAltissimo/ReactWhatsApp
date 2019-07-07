@@ -44,7 +44,7 @@ export default (props) =>{
             </Text>
         </View>
       </View>
-      <View>
+      <View style={styles.timeContainer}>
         <Text style={styles.timeMensage}>
           {convertDate(props.item.lastMensage.date)}
         </Text>
@@ -70,16 +70,19 @@ const styles = new StyleSheet.create({
   },
   unreadMensages: {
     textAlign: 'center',
-    backgroundColor: "#09D261",
+    backgroundColor: '#FBC02D',
     color: "#ffffff",
     borderRadius: 50
   },
   timeMensage: {
-    color: "#09D261"
+    color: '#FBC02D'
   },
   conversationProfileImg: {
     borderRadius: 50,
     width: 40,
     height: 40
+  },
+  timeContainer: {
+    justifyContent: "flex-end"
   }
 });

@@ -22,6 +22,9 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+    "android": {
+      "package": "br.com.whatsappteste.leo"
+    },
     "ios": {
       "supportsTablet": true
     }

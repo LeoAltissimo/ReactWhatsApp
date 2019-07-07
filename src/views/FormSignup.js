@@ -164,7 +164,7 @@ class FormSignup extends React.Component {
         <View style={styles.containerButton}>
           <Button 
               title='Cadastrar' 
-              color='#287f62'
+              color='#FBC02D'
               onPress={ () => this.sendSingup()}
           />
         </View>
@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
   // header style
   containerTitle: {
     flex: 3,
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
   },
   title: {
     fontSize: 28,
@@ -204,16 +204,21 @@ const styles = StyleSheet.create({
     fontSize: 14
   },
   fieldSignup: {
-    color: '#fff',
+    color: '#3F51B5',
     fontSize: 22,
-    fontWeight: 'bold',
-    borderBottomColor: '#fff',
-    borderBottomWidth: 1,
+    fontWeight: '100',
+    borderColor: '#3F51B5',
+    borderWidth: 1,
+    paddingTop: 8,
+    paddingBottom: 8,
+    paddingLeft: 6,
+    paddingRight: 6,
+    borderRadius: 10,
     width: 300,
-    marginVertical: 20
+    marginVertical: 5
   },
   errorMenssage: {
-    color: '#ff0000',
+    color: '#3F51B5',
     fontSize: 14
   },
 

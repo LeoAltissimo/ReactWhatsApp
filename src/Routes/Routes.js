@@ -36,12 +36,15 @@ export const TabMain = createMaterialTopTabNavigator(
         fontSize: 12,
       },
       style: {
-        backgroundColor: '#287f62',
+        backgroundColor: '#3F51B5',
+        color: '#FBC02D',
         justifyContent: 'center',
         paddingTop: 30
       },
       indicatorStyle: {
-        backgroundColor: '#fff'
+        backgroundColor: '#FBC02D',
+        height: 4,
+        color: '#FBC02D',
       },
     },
     initialRouteName: 'TabConversas'

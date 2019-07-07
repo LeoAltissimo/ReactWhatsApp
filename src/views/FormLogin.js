@@ -31,7 +31,7 @@ class FormLogin extends React.Component {
 
   componentWillReceiveProps(props) {
     if(!props.loginActionLoading && props.loginStatus ) {
-      this.props.navigation.navigate('TabMain');
+      this.props.navigation.navigate('ConnectedFormLogin');
     }
   }
 
@@ -160,8 +160,8 @@ class FormLogin extends React.Component {
         {/* Login Button */}
         <View style={styles.containerButton}>
           <Button
-            title='Entrar'
-            color='#287f62'
+            title='Login'
+            color='#FBC02D'
             onPress={() => this.sendLogin()}
           />
         </View>
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
 
   // header style
   containerTitle: {
-    flex: 4,
+    flex: 3,
     justifyContent: 'center',
   },
   title: {
@@ -197,20 +197,25 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   linkSignup: {
-    color: '#fff',
+    color: '#000',
     fontSize: 14
   },
   fieldLogin: {
-    color: '#fff',
+    color: '#3F51B5',
     fontSize: 22,
-    fontWeight: 'bold',
-    borderBottomColor: '#fff',
-    borderBottomWidth: 1,
+    fontWeight: '100',
+    borderColor: '#3F51B5',
+    borderWidth: 1,
+    paddingTop: 8,
+    paddingBottom: 8,
+    paddingLeft: 6,
+    paddingRight: 6,
+    borderRadius: 10,
     width: 300,
-    marginVertical: 20
+    marginVertical: 5
   },
   errorMenssage: {
-    color: '#ff0000',
+    color: '#3F51B5',
     fontSize: 14
   },
 
